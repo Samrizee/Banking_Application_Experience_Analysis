@@ -21,10 +21,21 @@ class DataCleaner:
         nulls = self.df['Review Content'].isnull().any()
         if nulls:
             print("Null values found in 'Review Content'.")
+    def drop_nan_rows(self):
+        """Remove rows with NaN values in 'Review Content'."""
+        print(f"Initial number of rows before dropping NaN: {len(self.df)}")
+        self.df = self.df[self.df['Review Content'].notna()]
+        print(f"Remaining rows after dropping NaN: {len(self.df)}")
     
     def filter_ethiopian_chars(self):
-        """Remove rows containing Ethiopian characters."""
-        self.df = self.df[~self.df['Review Content'].str.contains(r'[\u1200-\u137F]', na=False)]
+    
+        mask = self.df['Review Content'].str.contains(r'[\u1200-\u137F]', na=False, regex=True)
+        print("Rows with Ethiopian characters:")
+        print(self.df[mask])  
+
+        self.df = self.df[~mask]
+
+        print(f"Remaining rows after filtering: {len(self.df)}")
     
     def remove_emojis(self):
         """Remove emojis from 'Review Content'."""
@@ -50,11 +61,3 @@ class DataCleaner:
 import sys
 print(sys.path)
  
-# Usage example (to be run outside this module):
-# df = pd.read_csv('your_data.csv')  # Load your DataFrame
-# cleaner = DataCleaner(df)
-# cleaner.remove_duplicates()
-# cleaner.remove_nulls()
-# cleaner.filter_ethiopian_chars()
-# cleaner.remove_emojis()
-# cleaned_df = cleaner.get_cleaned_data()
