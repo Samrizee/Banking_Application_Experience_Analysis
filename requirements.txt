@@ -11,3 +11,4 @@ textblob
 vaderSentiment
 jupyter
 google-play-scraper
+oracle
