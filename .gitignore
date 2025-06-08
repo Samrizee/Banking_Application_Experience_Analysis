@@ -1,0 +1,7 @@
+venv/
+node_modules/
+__pycache__/
+*.csv
+.DS_Store
+.ipynb_checkpoints/
+Data/
